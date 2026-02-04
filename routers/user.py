@@ -45,11 +45,7 @@ bcrypt_context = CryptContext(schemes="bcrypt", deprecated = "auto")
 
 
 @router.post("/create-user", status_code=status.HTTP_201_CREATED)
-def create_user(db:db_dependancy, new_user: user_model):
-    print("Password type:", type(new_user.Password))
-    print("Password length (bytes):", len(new_user.Password.encode("utf-8")))
-    print("Password value:", new_user.Password)
-    
+def create_user(db:db_dependancy, new_user: user_model):    
     user = Users(
         user_name = new_user.user_name,
         first_name = new_user.first_name,
