@@ -51,7 +51,7 @@ def create_new_task(db: db_dependancy, task_request:task_request_model, user: us
     db.add(task)
     db.commit()
 
-@router.put("/update-task")
+@router.put("/update-task", status_code=status.HTTP_204_NO_CONTENT)
 def update_task_info(user: user_dependancy, db:db_dependancy, update_request:update_request_model):
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="unauthenticated user")
@@ -59,7 +59,7 @@ def update_task_info(user: user_dependancy, db:db_dependancy, update_request:upd
     if project is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="project not found")
   
-    task = db.query(Tasks).filter(Tasks.owner_id == user["id"], Tasks.owner_project_id == project.id, Tasks.task_name == update_request.task_name)
+    task = db.query(Tasks).filter(Tasks.owner_id == user["id"], Tasks.owner_project_id == project.id, Tasks.task_name == update_request.task_name).first()
     if task is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="task not found")
     
